@@ -1,0 +1,49 @@
+{
+    "apps": [{
+        "name": "hg-koa2", //请根据实际情况更改
+        "script": "./app.js",
+        "log_date_format": "YYYY-MM-DD HH:mm:ss",
+        "error_file": "./logs/hgkoa-error.log",
+        "out_file": "./logs/hgkoa-out.log",
+        "pid_file": "./logs/pids/hgkoa.pid",
+        "instances": 2, //实例个数
+        "min_uptime": "200s",
+        "max_restarts": 10,
+        "max_memory_restart": "2M",
+        "cron_restart": "1 0 * * *",
+        "watch": [ // 监控变化的目录，一旦变化，自动重启
+            "bin",
+            "application"
+        ],
+        "ignore_watch": [ // 从监控目录中排除
+            "node_modules",
+            "public"
+        ],
+        "merge_logs": true,
+        "exec_interpreter": "node",
+        //cluster（集群），默认是fork
+        "exec_mode": "cluster",
+        "autorestart": true,
+        "vizion": false,
+        "env": {
+            "NODE_ENV": "production",
+            "NODE_PORT": "1337"
+        },
+        "env_production": {
+            "NODE_ENV": "production",
+            "NODE_PORT": "1337"
+        },
+        "env_staging": {
+            "NODE_ENV": "staging",
+            "NODE_PORT": "1338" //stag环境端口，可自行修改
+        },
+        "env_dev": {
+            "NODE_ENV": "dev",
+            "NODE_PORT": "1337" //开发环境端口，可自行修改
+        },
+        "env_testing": {
+            "NODE_ENV": "testing",
+            "NODE_PORT": "1337"
+        }
+    }]
+}
