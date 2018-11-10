@@ -6,12 +6,6 @@ class TestService extends BaseService {
     test() {
         return "test model";
     }
-    static getInstance() {
-        if (!TestService.instance) {
-            TestService.instance = new TestService;
-        }
-        return TestService.instance;
-    }
 }
 
-module.exports = TestService.getInstance(); //采用单例模式，隐式返回this
+module.exports = TestService; //采用单例模式，隐式返回this
