@@ -5,6 +5,14 @@ function setRouter(router) {
         ctx.body = 'hello,koa2 api';
     });
 
+    //模拟throw,抛出异常处理
+    router.get("/test-error", function(ctx, next) {
+        // ctx.throw(401, "unlogin");
+        ctx.throw(401, {
+            message: "unlogin"
+        });
+    });
+
     router.get('/test', helper.controller('Index', 'test'));
 
     router.get('/bar', function(ctx, next) {
