@@ -74,7 +74,7 @@
         yarn global add pm2
         yarn install
     2. 启动app
-    方式1: node bootstrap/www
+    方式1: node app.js
     方式2：采用pm2进程管理(env可以为production/dev/testing/staging)
     pm2 start boot.json　　　            线上环境启动
     pm2 start boot.json --env staging    预发布环境启动
