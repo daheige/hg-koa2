@@ -28,7 +28,47 @@
     ├── public                  可对访问的目录
     │   └── test.html
     └── yarn.lock
+# nginx conf
+    # nginx配置
+    server {
+        listen 80;
+        set $root_path /web/hg-koa2/public;
+        root $root_path;
+        server_name hgkoa.com www.hgkoa.com;
 
+        #访问日志设置
+        access_log /projects/wwwlogs/hgkoa.com-access.log;
+        error_log /projects/wwwlogs/hgkoa.com-error.log;
+        #error_page 404 /usr/share/nginx/html/40x.html;
+
+        #error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            root /usr/share/nginx/html;
+        }
+
+        location @nodejs {
+            proxy_http_version 1.1;         #http 版本
+            proxy_set_header Host $host;    #为反向设置原请求头
+            proxy_set_header X-Read-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Upgrade $http_upgrade; #设置WebSocket Upgrade
+            proxy_set_header Connection "upgrade";
+            proxy_set_header X-NginX-Proxy true;
+            proxy_set_header X-Request-Uri $request_uri;
+            proxy_set_header X-Referer $http_referer;
+            proxy_pass http://localhost:1337;
+        }
+
+        location / {
+            try_files $uri @nodejs;
+        }
+
+        location ~ .*\.(gif|jpg|png|css|js|bmp|swf|ico)(.*) {
+            root $root_path;
+            access_log off;
+            expires 30d;
+        }
+    }
 # run app
     1. 安装npm包
         yarn global add pm2
@@ -40,5 +80,7 @@
     pm2 start boot.json --env staging    预发布环境启动
     pm2 start boot.json --env testing    测试环境启动
     pm2 start boot.json --env dev        开发环境启动
+# docs
+    https://github.com/daheige/koa-docs-Zh-CN
 # License
   MIT
