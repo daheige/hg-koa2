@@ -3,6 +3,7 @@ const json = require('koa-json');
 const bodyparser = require('koa-bodyparser');
 const koaStatic = require('koa-static');
 const koaRouter = require('koa-router')(); //路由实例对象
+const helmet = require('koa-helmet'); //防止xss攻击
 
 //设置app网站根目录和application目录
 Object.defineProperty(global, 'ROOT_PATH', {
@@ -96,12 +97,11 @@ app.use(async (ctx, next) => {
 });
 
 //系统全局middlewares
+app.use(helmet()); //防止xss攻击
 app.use(bodyparser({
     enableTypes: ['json', 'form', 'text']
 }));
-
-app.use(json());
-// app.use(logger());
+app.use(json()); //json解析
 
 //静态资源目录设置，可以根据项目具体配置，如果走nginx反向代理请注释如下代码
 app.use(koaStatic(PUBLIC_PATH)); //静态资源根目录设置
