@@ -63,7 +63,7 @@
             try_files $uri @nodejs;
         }
 
-        location ~ .*\.(gif|jpg|png|css|js|bmp|swf|ico)(.*) {
+        location ~ .*\.(gif|jpg|png|css|js|bmp|swf|ico)$ {
             root $root_path;
             access_log off;
             expires 30d;
@@ -76,7 +76,7 @@
     2. 启动app
     方式1: node app.js
     方式2：采用pm2进程管理(env可以为production/dev/testing/staging)
-    pm2 start boot.json　　　            线上环境启动
+    pm2 start boot.json　　　             线上环境启动
     pm2 start boot.json --env staging    预发布环境启动
     pm2 start boot.json --env testing    测试环境启动
     pm2 start boot.json --env dev        开发环境启动
