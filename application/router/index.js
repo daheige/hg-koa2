@@ -29,14 +29,15 @@ function setRouter(router) {
         }
     });
 
-    router.get('/api/test', async (ctx, next) => {
-        ctx.body = {
-            title: 'koa2 json',
-            user: 'heige'
-        }
-    });
+    //axios测试
+    router.get('/api/test', helper.controller('api/Demo', 'test'));
+
+    //helper.get/helper.post方法测试
+    router.get('/api/get-data', helper.controller('api/Demo', 'getData'));
+    router.post('/api/post-data', helper.controller('api/Demo', 'testPost'));
     router.get('/api/info', helper.ware('common', 'setCommonHeader'), helper.controller('Index', 'index'));
     router.get('/api/demo', helper.controller('api/Demo', 'index'));
+
     return router;
 }
 

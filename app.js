@@ -89,9 +89,10 @@ app.use(async (ctx, next) => {
             return
         }
 
-        console.log("error message: ", err.message);
+        console.log("error message: ", err.message || '');
         ctx.body = {
-            message: err.message || "server error!"
+            code: 500,
+            message: "server error!"
         };
     }
 });
