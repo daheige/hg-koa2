@@ -6,7 +6,7 @@
         "error_file": "./logs/hgkoa-error.log",
         "out_file": "./logs/hgkoa-out.log",
         "pid_file": "./logs/pids/hgkoa.pid",
-        "instances": 2, //实例个数
+        "instances": 8, //实例个数
         "min_uptime": "200s",
         "max_restarts": 10,
         "max_memory_restart": "2M",
