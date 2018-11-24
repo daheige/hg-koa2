@@ -98,6 +98,20 @@ app.use(async (ctx, next) => {
         let ms = new Date() - start;
         console.log("=====exec end status====", ctx.status);
         console.log(`${ctx.method} ${ctx.url} - cost:${ms}ms`);
+
+        if (ctx.status != 200) {
+            helper.errorLog('exec error', {
+                log_id: log_id,
+                request_id: request_id,
+            });
+        } else {
+            helper.infoLog('exec end', {
+                log_id: log_id,
+                request_id: request_id,
+                exec_time: ms + 'ms'
+            });
+        }
+
         ctx.set('x-request-time', ms + 'ms');
     } catch (err) {
         //捕捉错误记录日志
@@ -141,6 +155,17 @@ app.use(koaStatic(PUBLIC_PATH)); //静态资源根目录设置
 //路由分离，绑定到控制器
 const routers = require(APP_PATH + '/router/index')(koaRouter);
 app.use(routers.routes(), routers.allowedMethods());
+
+//找不到路由的返回404
+app.use(async (ctx, next) => {
+    await next();
+
+    ctx.status = 404;
+    ctx.body = {
+        code: ctx.status,
+        message: "Not found!"
+    };
+});
 
 console.log("server has run on: ", ENV_INFO.NODE_PORT);
 app.listen(ENV_INFO.NODE_PORT);
