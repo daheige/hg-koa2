@@ -5,4 +5,5 @@ module.exports = {
     },
     appName: "hg-koa2",
     appVersion: "1.0.0",
+    log_dir: ROOT_PATH + '/logs'
 }

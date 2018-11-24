@@ -28,6 +28,12 @@
     ├── public                  可对访问的目录
     │   └── test.html
     └── yarn.lock
+# 程序抛出异常的方法
+        在控制器中直接采用如下方式就可以
+        // ctx.throw(401, "unlogin");
+        ctx.throw(401, {
+            message: "unlogin"
+        });
 # nginx conf
     # nginx配置
     server {

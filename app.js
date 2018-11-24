@@ -73,15 +73,47 @@ Object.defineProperty(global, 'config', {
 //实例化koa2对象
 const app = new Koa();
 
-//全局默认错误处理
+//记录每次请求和全局错误处理
 app.use(async (ctx, next) => {
+    //开始请求分配一个request_id
+    let start = new Date();
+    let log_id = helper.uuid();
+    let request_id = helper.md5(log_id);
+    ctx.set('x-request-id', request_id);
+
+    console.log("request_id: ", request_id)
+    helper.infoLog('exec begin', {
+        log_id: log_id,
+        request_id: request_id,
+        request_uri: ctx.originalUrl,
+        request_path: ctx.path,
+        request_data: ctx.method != 'GET' ? ctx.body : ctx.query,
+        ip: ctx.ip,
+        method: ctx.method,
+        ua: ctx.get('User-Agent') || '',
+    });
+
     try {
         await next();
+        let ms = new Date() - start;
+        console.log("=====exec end status====", ctx.status);
+        console.log(`${ctx.method} ${ctx.url} - cost:${ms}ms`);
+        ctx.set('x-request-time', ms + 'ms');
     } catch (err) {
-        // will only respond with JSON
-        // 为所有错误添加了一个errcode
+        //捕捉错误记录日志
         ctx.status = err.statusCode || err.status || 500;
         console.log("code: ", ctx.status);
+        helper.errorLog('exec error', {
+            log_id: log_id,
+            request_id: request_id,
+            error: {
+                code: ctx.status,
+                message: err.message || '',
+            }
+        });
+
+        console.log("error message: ", err.message || '');
+        //开发环境直抛出异常
         if (['dev', 'testing', 'staging'].includes(APP_ENV)) {
             ctx.body = {
                 message: err.message
@@ -89,10 +121,9 @@ app.use(async (ctx, next) => {
             return
         }
 
-        console.log("error message: ", err.message || '');
         ctx.body = {
-            code: 500,
-            message: "server error!"
+            code: ctx.status,
+            message: err.message || "server error!"
         };
     }
 });
@@ -106,16 +137,6 @@ app.use(json()); //json解析
 
 //静态资源目录设置，可以根据项目具体配置，如果走nginx反向代理请注释如下代码
 app.use(koaStatic(PUBLIC_PATH)); //静态资源根目录设置
-
-// console.log 打印每个request需要的时间
-// x-response-time
-app.use(async (ctx, next) => {
-    const start = new Date();
-    await next();
-    const ms = new Date() - start;
-    ctx.response.set('x-request-time', ms + 'ms');
-    console.log(`${ctx.method} ${ctx.url} - cost:${ms}ms`);
-});
 
 //路由分离，绑定到控制器
 const routers = require(APP_PATH + '/router/index')(koaRouter);
