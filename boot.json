@@ -9,7 +9,7 @@
         "instances": 8, //实例个数
         "min_uptime": "200s",
         "max_restarts": 10,
-        "max_memory_restart": "2M",
+        "max_memory_restart": "1000M",
         "cron_restart": "1 0 * * *",
         "watch": [ // 监控变化的目录，一旦变化，自动重启
             "bin",
