@@ -1,7 +1,7 @@
 FROM mhart/alpine-node
 
 #安装yarn,pm2
-RUN mkdir /app && npm install -g yarn && \
+RUN mkdir -p /app/logs && npm install -g yarn && \
 yarn config set registry http://registry.npm.taobao.org/ && \
     npm install -g pm2
 
@@ -17,7 +17,10 @@ COPY . /app/
 
 EXPOSE 1337
 
-#CMD [ "pm2","start","/app/boot.json","--no-daemon"]
+# 日志运行目录
+VOLUME /app/logs
+
+CMD [ "pm2","start","/app/boot.json","--no-daemon"]
 
 #或者用下面的这个也可以
 #CMD [ "pm2-docker","start","/app/boot.json"]
