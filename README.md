@@ -97,6 +97,58 @@
     CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
     c447c60d4ea7        hgkoa-server       "pm2 start /app/boot…"   About a minute ago   Up About a minute   0.0.0.0:1337->1337/tcp   hg-koa2
 
+# 查看docker pm2 状态
+    heige@daheige:~/mywork/hg-koa2$ docker exec -it hg-koa2 pm2 list
+
+    ┌──────────┬────┬─────────┬─────────┬─────┬────────┬─────────┬────────┬──────┬───────────┬──────┬──────────┐
+    │ App name │ id │ version │ mode    │ pid │ status │ restart │ uptime │ cpu  │ mem       │ user │ watching │
+    ├──────────┼────┼─────────┼─────────┼─────┼────────┼─────────┼────────┼──────┼───────────┼──────┼──────────┤
+    │ hg-koa2  │ 0  │ N/A     │ cluster │ 16  │ online │ 0       │ 4m     │ 0.2% │ 46.1 MB   │ root │ enabled  │
+    │ hg-koa2  │ 1  │ N/A     │ cluster │ 23  │ online │ 0       │ 4m     │ 0.2% │ 46.0 MB   │ root │ enabled  │
+    │ hg-koa2  │ 2  │ N/A     │ cluster │ 30  │ online │ 0       │ 4m     │ 0.2% │ 45.5 MB   │ root │ enabled  │
+    │ hg-koa2  │ 3  │ N/A     │ cluster │ 41  │ online │ 0       │ 4m     │ 0.2% │ 45.6 MB   │ root │ enabled  │
+    │ hg-koa2  │ 4  │ N/A     │ cluster │ 48  │ online │ 0       │ 4m     │ 0.2% │ 45.5 MB   │ root │ enabled  │
+    │ hg-koa2  │ 5  │ N/A     │ cluster │ 63  │ online │ 0       │ 4m     │ 0.2% │ 45.4 MB   │ root │ enabled  │
+    │ hg-koa2  │ 6  │ N/A     │ cluster │ 74  │ online │ 0       │ 4m     │ 0.2% │ 45.3 MB   │ root │ enabled  │
+    │ hg-koa2  │ 7  │ N/A     │ cluster │ 81  │ online │ 0       │ 4m     │ 0.2% │ 45.9 MB   │ root │ enabled  │
+    └──────────┴────┴─────────┴─────────┴─────┴────────┴─────────┴────────┴──────┴───────────┴──────┴──────────┘
+     Use `pm2 show <id|name>` to get more details about an app
+
+    heige@daheige:~/mywork/hg-koa2$ docker exec -it hg-koa2 pm2 list
+    ┌──────────┬────┬─────────┬─────────┬─────┬────────┬─────────┬────────┬──────┬───────────┬──────┬──────────┐
+    │ App name │ id │ version │ mode    │ pid │ status │ restart │ uptime │ cpu  │ mem       │ user │ watching │
+    ├──────────┼────┼─────────┼─────────┼─────┼────────┼─────────┼────────┼──────┼───────────┼──────┼──────────┤
+    │ hg-koa2  │ 0  │ N/A     │ cluster │ 16  │ online │ 0       │ 4m     │ 0.3% │ 46.1 MB   │ root │ enabled  │
+    │ hg-koa2  │ 1  │ N/A     │ cluster │ 23  │ online │ 0       │ 4m     │ 0.3% │ 46.0 MB   │ root │ enabled  │
+    │ hg-koa2  │ 2  │ N/A     │ cluster │ 30  │ online │ 0       │ 4m     │ 0.3% │ 45.5 MB   │ root │ enabled  │
+    │ hg-koa2  │ 3  │ N/A     │ cluster │ 41  │ online │ 0       │ 4m     │ 0.3% │ 45.6 MB   │ root │ enabled  │
+    │ hg-koa2  │ 4  │ N/A     │ cluster │ 48  │ online │ 0       │ 4m     │ 0.3% │ 45.5 MB   │ root │ enabled  │
+    │ hg-koa2  │ 5  │ N/A     │ cluster │ 63  │ online │ 0       │ 4m     │ 0%   │ 45.4 MB   │ root │ enabled  │
+    │ hg-koa2  │ 6  │ N/A     │ cluster │ 74  │ online │ 0       │ 4m     │ 0%   │ 45.3 MB   │ root │ enabled  │
+    │ hg-koa2  │ 7  │ N/A     │ cluster │ 81  │ online │ 0       │ 4m     │ 0.3% │ 45.9 MB   │ root │ enabled  │
+    └──────────┴────┴─────────┴─────────┴─────┴────────┴─────────┴────────┴──────┴───────────┴──────┴──────────┘
+     Use `pm2 show <id|name>` to get more details about an app
+
+    heige@daheige:~/mywork/hg-koa2$ docker exec -it hg-koa2 pm2 logs hg-koa2 
+    [TAILING] Tailing last 15 lines for [all] processes (change the value with --lines option)
+    /app/logs/hgkoa-error.log last 15 lines:
+    /app/logs/hgkoa-out.log last 15 lines:
+    0|hg-koa2  | 2019-03-02 14:21:12: server has run on:  1337
+    0|hg-koa2  | 2019-03-02 14:21:12: server has run on:  1337
+    0|hg-koa2  | 2019-03-02 14:21:12: server has run on:  1337
+    0|hg-koa2  | 2019-03-02 14:21:12: server has run on:  1337
+    0|hg-koa2  | 2019-03-02 14:21:12: server has run on:  1337
+    0|hg-koa2  | 2019-03-02 14:24:41: request_id:  413875c139e39b263301561cb2e4274f
+    0|hg-koa2  | 2019-03-02 14:24:41: write log success!
+    0|hg-koa2  | 2019-03-02 14:24:41: =====exec end status==== 200
+    0|hg-koa2  | 2019-03-02 14:24:41: GET / - cost:17ms
+    0|hg-koa2  | 2019-03-02 14:24:41: write log success!
+    0|hg-koa2  | 2019-03-02 14:25:07: request_id:  b49ba4fb1effed8c76898955cabcd251
+    0|hg-koa2  | 2019-03-02 14:25:07: write log success!
+    0|hg-koa2  | 2019-03-02 14:25:07: =====exec end status==== 200
+    0|hg-koa2  | 2019-03-02 14:25:07: GET / - cost:16ms
+    0|hg-koa2  | 2019-03-02 14:25:07: write log success!
+
 # docs
     https://github.com/daheige/koa-docs-Zh-CN
 # License
