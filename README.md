@@ -88,9 +88,15 @@
     pm2 start boot.json --env testing    测试环境启动
     pm2 start boot.json --env dev        开发环境启动
 # docker容器方式运行
-    生成镜像: docker build -t hgnode-server .
+    生成镜像: docker build -t hgkoa-server .
     运行容器: 
-    docker run -it -d -p 1337:1337 -v /data/logs/hgnode:/app/logs hgnode-server
+    docker run -it --name=hg-koa2 -d -p 1337:1337 -v /data/logs/hgnode:/app/logs hgkoa-server
+
+    查看容器运行状态
+    $ docker ps -a | grep hg-koa2
+    CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
+    c447c60d4ea7        hgkoa-server       "pm2 start /app/boot…"   About a minute ago   Up About a minute   0.0.0.0:1337->1337/tcp   hg-koa2
+
 # docs
     https://github.com/daheige/koa-docs-Zh-CN
 # License
