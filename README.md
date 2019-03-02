@@ -87,6 +87,9 @@
     pm2 start boot.json --env staging    预发布环境启动
     pm2 start boot.json --env testing    测试环境启动
     pm2 start boot.json --env dev        开发环境启动
+# docker容器方式运行
+    生成镜像: docker build -t hgnode-server .
+    运行容器: docker run -it -d -p 1337:1337 hgnode-server
 # docs
     https://github.com/daheige/koa-docs-Zh-CN
 # License
