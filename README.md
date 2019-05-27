@@ -93,7 +93,7 @@
     docker run -it --name=hg-koa2 -d -p 1337:1337 -v /data/logs/hgnode:/app/logs hgkoa-server
 
     如果要指定时区
-    docker run -it --name=hg-koa2 -d -p 1337:1337 -v /data/logs/hgnode:/app/logs -e "TZ=Asia/Shanghai" hgnode-server
+    docker run -it --name=hg-koa2 -d -p 1337:1337 -v /data/logs/hgnode:/app/logs -e "TZ=Asia/Shanghai" hgkoa-server
 
 
     查看容器运行状态
